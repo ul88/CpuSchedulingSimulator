@@ -1,0 +1,143 @@
+#include "processlist.h"
+
+QList<QString> ProcessList::m_colorList = {
+    "antiquewhite", "aqua", "aquamarine", "beige",
+    "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown",
+    "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue",
+    "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod",
+    "darkgray", "darkgreen", "darkgrey", "darkkhaki", "darkmagenta", "darkolivegreen",
+    "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue",
+    "darkslategray", "darkslategrey", "darkturquoise", "darkviolet", "deeppink",
+    "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick",
+    "forestgreen", "fuchsia", "gainsboro", "gold", "goldenrod", "gray", "grey",
+    "green", "greenyellow", "hotpink", "indianred", "indigo", "khaki",
+    "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
+    "lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey", "lightpink", "lightsalmon", "lightseagreen",
+    "lightskyblue", "lightslategray", "lightslategrey", "lightsteelblue", "lightyellow", "lime", "limegreen",
+    "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple",
+    "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue",
+    "mistyrose", "moccasin", "navajowhite", "navy", "oldlace", "olive", "olivedrab", "orange",
+    "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip",
+    "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red", "rosybrown", "royalblue",
+    "saddlebrown", "salmon", "sandybrown", "seagreen", "sienna", "silver", "skyblue",
+    "slateblue", "slategray", "slategrey", "springgreen", "steelblue", "tan", "teal", "thistle",
+    "tomato", "turquoise", "violet", "wheat", "yellow", "yellowgreen"
+};
+
+ProcessList::ProcessList() : addCount(0) { }
+
+int ProcessList::rowCount(const QModelIndex& p) const {
+    Q_UNUSED(p);
+    return m_list.size();
+}
+
+QVariant ProcessList::data(const QModelIndex& index, int role) const{
+    int row = index.row();
+    if(row < 0) return QVariant();
+
+    switch((ProcessListEnum)role){
+    case ProcessListEnum::PCOLOR:
+        return m_list[row].pcolor;
+    case ProcessListEnum::PID:
+        return m_list[row].pid;
+    case ProcessListEnum::ARRIVAL_TIME:
+        return m_list[row].arrivalTime;
+    case ProcessListEnum::SERVICE_TIME:
+        return m_list[row].serviceTime;
+    case ProcessListEnum::PRIORITY:
+        return m_list[row].priority;
+    case ProcessListEnum::TIME_SLICE:
+        return m_list[row].timeSlice;
+    }
+    return QVariant();
+}
+
+QHash<int, QByteArray> ProcessList::roleNames() const{
+    static QHash<int, QByteArray> roles;
+    roles[ProcessListEnum::PCOLOR] = enumToQStr(ProcessListEnum::PCOLOR).toUtf8();
+    roles[ProcessListEnum::PID] = enumToQStr(ProcessListEnum::PID).toUtf8();
+    roles[ProcessListEnum::ARRIVAL_TIME] = enumToQStr(ProcessListEnum::ARRIVAL_TIME).toUtf8();
+    roles[ProcessListEnum::SERVICE_TIME] = enumToQStr(ProcessListEnum::SERVICE_TIME).toUtf8();
+    roles[ProcessListEnum::PRIORITY] = enumToQStr(ProcessListEnum::PRIORITY).toUtf8();
+    roles[ProcessListEnum::TIME_SLICE] = enumToQStr(ProcessListEnum::TIME_SLICE).toUtf8();
+    return roles;
+}
+
+QString ProcessList::enumToQStr(ProcessListEnum e) const{
+    switch(e){
+    case PCOLOR:
+        return "pcolor";
+    case PID:
+        return "pid";
+    case ARRIVAL_TIME:
+        return "arrivalTime";
+    case SERVICE_TIME:
+        return "serviceTime";
+    case PRIORITY:
+        return "priority";
+    case TIME_SLICE:
+        return "timeSlice";
+    }
+    return "";
+}
+
+QColor ProcessList::getNewColor(){
+    return QColor(m_colorList[(addCount+1)%m_colorList.size()]);
+}
+
+void ProcessList::append(QColor pcolor,int pid, int arrivalTime, int serviceTime, int priority, int timeSlice){
+    beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
+    addCount = (addCount + 1) % m_colorList.size();
+    m_list.append({pcolor, pid, arrivalTime, serviceTime, priority, timeSlice});
+    endInsertRows();
+}
+
+void ProcessList::append(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice){
+    beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
+    addCount = (addCount + 1) % m_colorList.size();
+    m_list.append({QColor(m_colorList[addCount]), pid, arrivalTime, serviceTime, priority, timeSlice});
+    endInsertRows();
+}
+
+void ProcessList::change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice){
+    beginResetModel();
+    m_list[index] = {color, pid, arrivalTime, serviceTime, priority, timeSlice};
+    endResetModel();
+}
+
+void ProcessList::remove(int pid){
+    int index = -1;
+    for(int i=0;i<m_list.size();i++){
+        if(m_list[i].pid == pid){
+            index = i;
+            break;
+        }
+    }
+
+    if(index == -1) qDebug()<<"알맞는 pid가 존재하지 않습니다.";
+    else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.removeAt(index);
+        endRemoveRows();
+    }
+}
+
+QList<ProcessList::element> ProcessList::sort(){
+    QList<ProcessList::element> list = m_list;
+    std::sort(list.begin(), list.end(), [](ProcessList::element a, ProcessList::element b) -> bool {
+        if(a.arrivalTime == b.arrivalTime) return a.serviceTime < b.serviceTime;
+        return a.arrivalTime < b.arrivalTime;
+    });
+    return list;
+}
+
+QVariantMap ProcessList::getElement(int index) const{
+    QVariantMap ret = QVariantMap();
+    ret[enumToQStr(ProcessListEnum::PCOLOR)] = m_list[index].pcolor;
+    ret[enumToQStr(ProcessListEnum::PID)] = m_list[index].pid;
+    ret[enumToQStr(ProcessListEnum::ARRIVAL_TIME)] = m_list[index].arrivalTime;
+    ret[enumToQStr(ProcessListEnum::SERVICE_TIME)] = m_list[index].serviceTime;
+    ret[enumToQStr(ProcessListEnum::PRIORITY)] = m_list[index].priority;
+    ret[enumToQStr(ProcessListEnum::TIME_SLICE)] = m_list[index].timeSlice;
+    return ret;
+}
