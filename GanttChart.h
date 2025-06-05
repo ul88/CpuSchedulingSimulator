@@ -27,7 +27,10 @@ public:
     int rowCount(const QModelIndex &p) const;
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
+
+    void appendEmptyElement(int start, int end);
     void append(QColor pcolor, int pid, int start, int end);
+    void append(GanttChart::element e);
     void clear();
 private:
     QList<GanttChart::element> m_list;

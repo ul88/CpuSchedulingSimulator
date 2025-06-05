@@ -48,7 +48,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     Repeater{
                         id:repeater
-                        model: schedulingManager.getGanttChart(qsTr("FCFS"));
+                        model: schedulingManager.getGanttChart(qsTr("SJF"));
                         delegate: Rectangle{
                             width: (end-start)*10
                             height: 50
@@ -57,7 +57,7 @@ Rectangle {
                             border.color: "black"
                             border.width: 2
                             ToolTip.visible: mouse.containsMouse
-                            ToolTip.text: qsTr("pid: " + pid)
+                            ToolTip.text: qsTr("pid: " + pid + "\n" + "start: " + start + "\n" + "end: " + end)
                             MouseArea{ id: mouse; anchors.fill: parent; hoverEnabled: true; }
                         }
                     }

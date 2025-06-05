@@ -3,6 +3,7 @@
 
 #include <QString>
 #include"scheduling.h"
+#include<QQueue>
 
 class FCFS : public Scheduling
 {

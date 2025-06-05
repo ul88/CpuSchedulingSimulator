@@ -1,6 +1,7 @@
 #include "schedulingmanager.h"
 SchedulingManager::SchedulingManager() {
     m_schedulingList.append(qSharedPointerDynamicCast<Scheduling>(QSharedPointer<FCFS>(new FCFS())));
+    m_schedulingList.append(qSharedPointerDynamicCast<Scheduling>(QSharedPointer<SJF>(new SJF())));
     m_processList = QSharedPointer<ProcessList>(new ProcessList());
 }
 

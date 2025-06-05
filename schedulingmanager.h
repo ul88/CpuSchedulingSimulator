@@ -7,6 +7,7 @@
 #include"processlist.h"
 #include<QSharedPointer>
 #include"fcfs.h"
+#include"sjf.h"
 class SchedulingManager : public QQuickItem
 {
     Q_OBJECT

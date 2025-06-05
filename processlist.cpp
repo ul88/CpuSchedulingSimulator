@@ -9,7 +9,7 @@ QList<QString> ProcessList::m_colorList = {
     "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue",
     "darkslategray", "darkslategrey", "darkturquoise", "darkviolet", "deeppink",
     "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick",
-    "forestgreen", "fuchsia", "gainsboro", "gold", "goldenrod", "gray", "grey",
+    "forestgreen", "fuchsia", "gainsboro", "gold", "goldenrod", "gray",
     "green", "greenyellow", "hotpink", "indianred", "indigo", "khaki",
     "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
     "lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey", "lightpink", "lightsalmon", "lightseagreen",

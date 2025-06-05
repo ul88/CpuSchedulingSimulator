@@ -31,6 +31,7 @@ qt_add_qml_module(appCpuSchedulingSimulator
         SOURCES GanttChart.h
         QML_FILES NewWindow2.qml
         SOURCES GanttChart.cpp
+        SOURCES sjf.h sjf.cpp
 )
 qt_add_resources(appCpuSchedulingSimulator "global_resources"
     PREFIX "/"

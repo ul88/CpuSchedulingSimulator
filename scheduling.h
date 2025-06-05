@@ -5,6 +5,7 @@
 #include"GanttChart.h"
 #include<QList>
 #include<QString>
+#include<QMap>
 class Scheduling
 {
 public:
@@ -13,9 +14,12 @@ public:
     QString getName() {return m_name;}
     virtual void run(ProcessList* processList) = 0; // Scheduling Class를 상속받는 class에서 구현해야할 실제 프로세스 동작
     GanttChart* getGanttChart() const;
+    QMap<int, QList<ProcessList::element>> getTimeTable(const ProcessList* p);
 protected:
-    QString m_name;
+    void setName(QString name) {m_name = name;}
     GanttChart* ganttChart;
+private:
+    QString m_name;
 };
 
 #endif // SCHEDULING_H

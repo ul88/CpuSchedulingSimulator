@@ -27,8 +27,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     QString enumToQStr(ProcessListEnum e) const;
-    QList<ProcessList::element> getProcessList() const {return m_list;}
-
+    QList<ProcessList::element> getList() const {return m_list;}
     QList<ProcessList::element> sort();
 public slots:
     QVariantMap getElement(int index) const;

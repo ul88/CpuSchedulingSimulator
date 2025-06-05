@@ -38,8 +38,16 @@ QHash<int, QByteArray> GanttChart::roleNames() const{
     return roles;
 }
 
+void GanttChart::appendEmptyElement(int start, int end){
+    m_list.append({QColor("grey"), 0, start, end});
+}
+
 void GanttChart::append(QColor pcolor, int pid, int start, int end){
     m_list.append({pcolor, pid, start, end});
+}
+
+void GanttChart::append(GanttChart::element e){
+    m_list.append(e);
 }
 
 void GanttChart::clear(){
