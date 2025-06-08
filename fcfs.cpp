@@ -31,6 +31,7 @@ void FCFS::run(ProcessList* processList){
             if(nowTime-startTime == p.serviceTime){
                 running = false; // 서비스 시간이 끝났으므로 더 볼 필요가 없음
                 ganttChart->append(p.pcolor, p.pid, startTime, nowTime);
+                output->append(p.pid, startTime-p.arrivalTime, startTime-p.arrivalTime, startTime - p.arrivalTime + p.serviceTime);
             }else if(nowTime - startTime > p.serviceTime){
                 qDebug()<<"오류 발생 FCFS 강제 종료";
                 return;

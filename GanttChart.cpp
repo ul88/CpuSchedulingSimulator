@@ -18,23 +18,19 @@ QVariant GanttChart::data(const QModelIndex &index, int role) const{
     if(nRow < 0) return QVariant();
 
     switch((GanttChartEnum)role){
-    case PCOLOR:
-        return m_list[index.row()].pcolor;
-    case PID:
-        return m_list[index.row()].pid;
-    case START:
-        return m_list[index.row()].start;
-    case END:
-        return m_list[index.row()].end;
+    case PCOLOR: return m_list[index.row()].pcolor;
+    case PID: return m_list[index.row()].pid;
+    case START: return m_list[index.row()].start;
+    case END: return m_list[index.row()].end;
     }
     return "";
 }
 QHash<int, QByteArray> GanttChart::roleNames() const{
     static QHash<int, QByteArray> roles;
-    roles[(int)GanttChartEnum::PCOLOR] = "pcolor";
-    roles[(int)GanttChartEnum::PID] = "pid";
-    roles[(int)GanttChartEnum::START] = "start";
-    roles[(int)GanttChartEnum::END] = "end";
+    roles[PCOLOR] = "pcolor";
+    roles[PID] = "pid";
+    roles[START] = "start";
+    roles[END] = "end";
     return roles;
 }
 

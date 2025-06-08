@@ -15,12 +15,12 @@ class SchedulingManager : public QQuickItem
 public:
     explicit SchedulingManager();
     ~SchedulingManager() {}
-public slots:
-    void run();
-    GanttChart* getGanttChart(QString name);
-    ProcessList* getProcessList() {return m_processList.get();}
-signals:
-    void processListChanged();
+
+    Q_INVOKABLE void run();
+    Q_INVOKABLE GanttChart* getGanttChart(QString name);
+    Q_INVOKABLE SchedulingOutput* getOutput(QString name);
+    Q_INVOKABLE ProcessList* getProcessList() {return m_processList.get();}
+
 private:
     QSharedPointer<ProcessList> m_processList;
     QList<QSharedPointer<Scheduling>>m_schedulingList;

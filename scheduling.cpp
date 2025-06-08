@@ -1,15 +1,21 @@
 #include "scheduling.h"
 
 Scheduling::Scheduling() {
-    ganttChart = new GanttChart;
+    ganttChart = new GanttChart();
+    output = new SchedulingOutput();
 }
 Scheduling::~Scheduling() {
     delete ganttChart;
+    delete output;
     qDebug()<<"Scheduling 소멸자 실행";
 }
 
 GanttChart* Scheduling::getGanttChart() const {
     return ganttChart;
+}
+
+SchedulingOutput* Scheduling::getOutput() const{
+    return output;
 }
 
 QMap<int, QList<ProcessList::element>> Scheduling::getTimeTable(const ProcessList* p){

@@ -29,13 +29,14 @@ public:
     QString enumToQStr(ProcessListEnum e) const;
     QList<ProcessList::element> getList() const {return m_list;}
     QList<ProcessList::element> sort();
-public slots:
-    QVariantMap getElement(int index) const;
-    QColor getNewColor();
-    void append(QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
-    void append(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
-    void change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
-    void remove(int pid);
+
+    Q_INVOKABLE QVariantMap getElement(int index) const;
+    Q_INVOKABLE QColor getNewColor();
+    Q_INVOKABLE void append(QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE void append(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE void change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE void remove(int pid);
+
 private:
     QList<ProcessList::element> m_list;
     static QList<QString> m_colorList;

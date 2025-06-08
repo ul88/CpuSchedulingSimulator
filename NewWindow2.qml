@@ -6,6 +6,14 @@ import QtQuick.Layouts
 Rectangle {
     id: root
     radius: 10
+
+    ComboBox{
+        id: comboBox
+        width: 100
+        height: 50
+        model: ["FCFS", "SJF"]
+    }
+
     Column{
         x: 50
         y: 50
@@ -48,7 +56,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     Repeater{
                         id:repeater
-                        model: schedulingManager.getGanttChart(qsTr("SJF"));
+                        model: schedulingManager.getGanttChart(comboBox.editText);
                         delegate: Rectangle{
                             width: (end-start)*10
                             height: 50
@@ -65,6 +73,25 @@ Rectangle {
                 ScrollBar.horizontal: ScrollBar { hoverEnabled: true; policy: ScrollBar.AlwaysOn;}
             }
 
+        }
+
+        ListView{
+            id: listView
+            x: 50
+            y: 100
+            width: 590
+            height: 380
+            spacing: 2.5
+            clip: true
+            model: schedulingManager.getOutput(comboBox.editText)
+            delegate: Text{
+                text: pid+" "+waitTime + " " + responseTime + " " + returnTime
+            }
+            footer: Text{
+                property var avg: schedulingManager.getOutput(comboBox.editText).getAvg()
+
+                text: avg.avgWaitTime+" " + avg.avgResponseTime + " " + avg.avgReturnTime
+            }
         }
     }
 }

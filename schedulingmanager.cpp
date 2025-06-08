@@ -20,3 +20,13 @@ GanttChart* SchedulingManager::getGanttChart(QString name){
     }
     return nullptr;
 }
+
+SchedulingOutput* SchedulingManager::getOutput(QString name){
+    for(const auto& iter : m_schedulingList){
+        if(iter->getName() == name){
+            qDebug()<<"check output()";
+            return iter->getOutput();
+        }
+    }
+    return nullptr;
+}

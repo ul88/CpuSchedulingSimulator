@@ -35,48 +35,37 @@ QVariant ProcessList::data(const QModelIndex& index, int role) const{
     int row = index.row();
     if(row < 0) return QVariant();
 
-    switch((ProcessListEnum)role){
-    case ProcessListEnum::PCOLOR:
-        return m_list[row].pcolor;
-    case ProcessListEnum::PID:
-        return m_list[row].pid;
-    case ProcessListEnum::ARRIVAL_TIME:
-        return m_list[row].arrivalTime;
-    case ProcessListEnum::SERVICE_TIME:
-        return m_list[row].serviceTime;
-    case ProcessListEnum::PRIORITY:
-        return m_list[row].priority;
-    case ProcessListEnum::TIME_SLICE:
-        return m_list[row].timeSlice;
+    switch(role){
+    case PCOLOR: return m_list[row].pcolor;
+    case PID: return m_list[row].pid;
+    case ARRIVAL_TIME: return m_list[row].arrivalTime;
+    case SERVICE_TIME: return m_list[row].serviceTime;
+    case PRIORITY: return m_list[row].priority;
+    case TIME_SLICE: return m_list[row].timeSlice;
     }
+
     return QVariant();
 }
 
 QHash<int, QByteArray> ProcessList::roleNames() const{
     static QHash<int, QByteArray> roles;
-    roles[ProcessListEnum::PCOLOR] = enumToQStr(ProcessListEnum::PCOLOR).toUtf8();
-    roles[ProcessListEnum::PID] = enumToQStr(ProcessListEnum::PID).toUtf8();
-    roles[ProcessListEnum::ARRIVAL_TIME] = enumToQStr(ProcessListEnum::ARRIVAL_TIME).toUtf8();
-    roles[ProcessListEnum::SERVICE_TIME] = enumToQStr(ProcessListEnum::SERVICE_TIME).toUtf8();
-    roles[ProcessListEnum::PRIORITY] = enumToQStr(ProcessListEnum::PRIORITY).toUtf8();
-    roles[ProcessListEnum::TIME_SLICE] = enumToQStr(ProcessListEnum::TIME_SLICE).toUtf8();
+    roles[PCOLOR] = enumToQStr(PCOLOR).toUtf8();
+    roles[PID] = enumToQStr(PID).toUtf8();
+    roles[ARRIVAL_TIME] = enumToQStr(ARRIVAL_TIME).toUtf8();
+    roles[SERVICE_TIME] = enumToQStr(SERVICE_TIME).toUtf8();
+    roles[PRIORITY] = enumToQStr(PRIORITY).toUtf8();
+    roles[TIME_SLICE] = enumToQStr(TIME_SLICE).toUtf8();
     return roles;
 }
 
 QString ProcessList::enumToQStr(ProcessListEnum e) const{
     switch(e){
-    case PCOLOR:
-        return "pcolor";
-    case PID:
-        return "pid";
-    case ARRIVAL_TIME:
-        return "arrivalTime";
-    case SERVICE_TIME:
-        return "serviceTime";
-    case PRIORITY:
-        return "priority";
-    case TIME_SLICE:
-        return "timeSlice";
+    case PCOLOR: return "pcolor";
+    case PID: return "pid";
+    case ARRIVAL_TIME: return "arrivalTime";
+    case SERVICE_TIME: return "serviceTime";
+    case PRIORITY: return "priority";
+    case TIME_SLICE: return "timeSlice";
     }
     return "";
 }
@@ -123,8 +112,8 @@ void ProcessList::remove(int pid){
 }
 
 QList<ProcessList::element> ProcessList::sort(){
-    QList<ProcessList::element> list = m_list;
-    std::sort(list.begin(), list.end(), [](ProcessList::element a, ProcessList::element b) -> bool {
+    QList<element> list = m_list;
+    std::sort(list.begin(), list.end(), [](element a, element b) -> bool {
         if(a.arrivalTime == b.arrivalTime) return a.serviceTime < b.serviceTime;
         return a.arrivalTime < b.arrivalTime;
     });
@@ -133,11 +122,11 @@ QList<ProcessList::element> ProcessList::sort(){
 
 QVariantMap ProcessList::getElement(int index) const{
     QVariantMap ret = QVariantMap();
-    ret[enumToQStr(ProcessListEnum::PCOLOR)] = m_list[index].pcolor;
-    ret[enumToQStr(ProcessListEnum::PID)] = m_list[index].pid;
-    ret[enumToQStr(ProcessListEnum::ARRIVAL_TIME)] = m_list[index].arrivalTime;
-    ret[enumToQStr(ProcessListEnum::SERVICE_TIME)] = m_list[index].serviceTime;
-    ret[enumToQStr(ProcessListEnum::PRIORITY)] = m_list[index].priority;
-    ret[enumToQStr(ProcessListEnum::TIME_SLICE)] = m_list[index].timeSlice;
+    ret[enumToQStr(PCOLOR)] = m_list[index].pcolor;
+    ret[enumToQStr(PID)] = m_list[index].pid;
+    ret[enumToQStr(ARRIVAL_TIME)] = m_list[index].arrivalTime;
+    ret[enumToQStr(SERVICE_TIME)] = m_list[index].serviceTime;
+    ret[enumToQStr(PRIORITY)] = m_list[index].priority;
+    ret[enumToQStr(TIME_SLICE)] = m_list[index].timeSlice;
     return ret;
 }
