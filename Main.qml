@@ -28,10 +28,10 @@ Window {
         source:{
             switch(mainWindow.clickedButton){
             case 2:
-                return "NewWindow1.qml";
+                return "window/NewWindow1.qml";
             case 3:
                 schedulingManager.run();
-                return "NewWindow2.qml";
+                return "window/NewWindow2.qml";
             default:
                 return "";
             }

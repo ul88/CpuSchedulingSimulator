@@ -17,28 +17,47 @@ qt_add_qml_module(appCpuSchedulingSimulator
     VERSION 1.0
     QML_FILES
         Main.qml
-        SOURCES scheduling.h scheduling.cpp
-        SOURCES fcfs.h fcfs.cpp
-        SOURCES schedulingmanager.h schedulingmanager.cpp
-        SOURCES processlist.h processlist.cpp
-        QML_FILES Navigation/NavigationBar.qml
-        QML_FILES Navigation/NavigationButton.qml
-        QML_FILES NewWindow1.qml
-        QML_FILES Input/ProcessInput.qml
-        QML_FILES ListComponent/HeaderComponent.qml
-        QML_FILES ListComponent/ViewDelegate.qml
-        QML_FILES Input/InputTool.qml
-        SOURCES GanttChart.h
-        QML_FILES NewWindow2.qml
-        SOURCES GanttChart.cpp
-        SOURCES sjf.h sjf.cpp
-        SOURCES schedulingoutput.h schedulingoutput.cpp
+
+        navigation/NavigationBar.qml
+        navigation/NavigationButton.qml
+
+        input/ProcessInput.qml
+        input/InputTool.qml
+
+        listcomponent/HeaderComponent.qml
+        listcomponent/ViewDelegate.qml
+        listcomponent/ReadonlyViewDelegate.qml
+        listcomponent/FooterComponent.qml
+
+        window/NewWindow1.qml
+        window/NewWindow2.qml
+        SOURCES
+            manager/schedulingmanager.h manager/schedulingmanager.cpp
+
+            scheduling/scheduling.h scheduling/scheduling.hpp
+            scheduling/fcfs.h scheduling/fcfs.cpp
+            scheduling/sjf.h scheduling/sjf.cpp
+            scheduling/nonpreemptivepriority.h scheduling/nonpreemptivepriority.cpp
+            scheduling/preemptivepriority.h scheduling/preemptivepriority.cpp
+            scheduling/rr.h scheduling/rr.cpp
+            scheduling/srt.h scheduling/srt.cpp
+            scheduling/hrn.h scheduling/hrn.cpp
+
+            listmodel/GanttChart.h listmodel/GanttChart.cpp
+            listmodel/processlist.h listmodel/processlist.cpp
+            listmodel/schedulingoutput.h listmodel/schedulingoutput.cpp
 )
 qt_add_resources(appCpuSchedulingSimulator "global_resources"
     PREFIX "/"
     FILES
         delete_icon.png
         edit_icon.png
+)
+target_include_directories(appCpuSchedulingSimulator
+    PRIVATE
+        listmodel
+        scheduling
+        manager
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -57,7 +76,6 @@ set(QT_QML_GENERATE_QMLLS_INI ON)
 target_link_libraries(appCpuSchedulingSimulator
     PRIVATE Qt6::Quick
 )
-
 include(GNUInstallDirs)
 install(TARGETS appCpuSchedulingSimulator
     BUNDLE DESTINATION .

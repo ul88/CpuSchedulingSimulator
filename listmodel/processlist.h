@@ -1,5 +1,4 @@
-#ifndef PROCESSLISTH_H
-#define PROCESSLISTH_H
+#pragma once
 
 #include <QAbstractListModel>
 #include<QColor>
@@ -22,7 +21,7 @@ public:
         PID, ARRIVAL_TIME, SERVICE_TIME, PRIORITY, TIME_SLICE
     };
 
-    explicit ProcessList();
+    explicit ProcessList(QObject* parent = nullptr);
     int rowCount(const QModelIndex& p) const override;
     QVariant data(const QModelIndex& index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -32,15 +31,15 @@ public:
 
     Q_INVOKABLE QVariantMap getElement(int index) const;
     Q_INVOKABLE QColor getNewColor();
-    Q_INVOKABLE void append(QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
-    Q_INVOKABLE void append(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
-    Q_INVOKABLE void change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE int append(QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE int append(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+    Q_INVOKABLE int change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
     Q_INVOKABLE void remove(int pid);
 
 private:
     QList<ProcessList::element> m_list;
     static QList<QString> m_colorList;
     unsigned int addCount;
-};
 
-#endif // PROCESSLISTH_H
+    int check(int pid, int arrivalTime, int serviceTime, int priority, int timeSlice);
+};

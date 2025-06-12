@@ -1,7 +1,7 @@
 #pragma once
 #include <QAbstractListModel>
-#include<QQuickItem>
-#include<QColor>
+#include <QQuickItem>
+#include <QColor>
 
 class GanttChart : public QAbstractListModel{
     Q_OBJECT
@@ -21,7 +21,7 @@ public:
         END
     };
 
-    explicit GanttChart();
+    explicit GanttChart(QObject* parent = nullptr);
     ~GanttChart();
 
     int rowCount(const QModelIndex &p) const;

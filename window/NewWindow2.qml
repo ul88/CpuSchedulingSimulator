@@ -2,6 +2,7 @@ import QtQuick
 import CpuSchedulingSimulator 1.0
 import QtQuick.Controls
 import QtQuick.Layouts
+import "../listcomponent"
 
 Rectangle {
     id: root
@@ -11,7 +12,7 @@ Rectangle {
         id: comboBox
         width: 100
         height: 50
-        model: ["FCFS", "SJF"]
+        model: ["FCFS", "SJF", "NonpreemptivePriority", "PreemptivePriority", "RR", "SRT", "HRN"]
     }
 
     Column{
@@ -75,23 +76,27 @@ Rectangle {
 
         }
 
+        ListModel{
+            id: headerModel
+            ListElement {t: "pid"}
+            ListElement {t: "대기 시간"}
+            ListElement {t: "응답 시간"}
+            ListElement {t: "반환 시간"}
+        }
+
         ListView{
             id: listView
-            x: 50
-            y: 100
-            width: 590
-            height: 380
+            width: parent.width
+            height: parent.height
             spacing: 2.5
             clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            headerPositioning: ListView.OverlayHeader
+            snapMode: ListView.SnapToItem
             model: schedulingManager.getOutput(comboBox.editText)
-            delegate: Text{
-                text: pid+" "+waitTime + " " + responseTime + " " + returnTime
-            }
-            footer: Text{
-                property var avg: schedulingManager.getOutput(comboBox.editText).getAvg()
-
-                text: avg.avgWaitTime+" " + avg.avgResponseTime + " " + avg.avgReturnTime
-            }
+            header: HeaderComponent{rectHeight: 60; rectWidth: listView.width; cellSize:117; listModel: headerModel}
+            delegate: ReadonlyViewDelegate{ rectWidth: listView.width; rectHeight: 40; }
+            footer: FooterComponent{rectWidth: listView.width; rectHeight: 40;}
         }
     }
 }

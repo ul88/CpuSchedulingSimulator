@@ -4,15 +4,11 @@ import QtQuick.Dialogs
 import CpuSchedulingSimulator 1.0
 
 Rectangle{
-
+    required property string t;
     property var process: ({pcolor: undefined, pid: undefined, arrivalTime: undefined,
                                serviceTime: undefined, priority: undefined, timeSlice: undefined})
     signal edit
-
-    // Component.onCompleted: {
-    //     if(!process.pcolor) process.pcolor = ;
-    // }
-
+    signal back
     Column{
         spacing: 5
         ColorDialog {
@@ -42,34 +38,56 @@ Rectangle{
             text: "pid"
             inputArea: process.pid ? process.pid : 0
             onInputAreaChanged: {process.pid = inputArea}
+            validatorTo: 1
+            validatorFrom: 100
         }
         InputTool{
             text: "도착 시간"
             inputArea: process.arrivalTime ? process.arrivalTime : 0
             onInputAreaChanged: {process.arrivalTime = inputArea}
+            validatorTo: 0
+            validatorFrom: 1000
         }
         InputTool{
             text: "서비스 시간"
             inputArea: process.serviceTime ? process.serviceTime : 0
             onInputAreaChanged: {process.serviceTime = inputArea}
+            validatorTo: 1
+            validatorFrom: 1000
         }
         InputTool{
             text: "우선순위"
             inputArea: process.priority ? process.priority : 0
             onInputAreaChanged: {process.priority = inputArea}
+            validatorTo: 0
+            validatorFrom: 10
         }
         InputTool{
             text: "타임슬라이스"
             inputArea: process.timeSlice ? process.timeSlice : 0
             onInputAreaChanged: {process.timeSlice = inputArea}
+            validatorTo: 1
+            validatorFrom: 100
         }
-        NavigationButton{
-            buttonText: "수정"
-            mouseArea.onClicked: {
-                console.log("수정!")
-                edit()
+        Row{
+            NavigationButton{
+                width: 140
+                height: 45
+                buttonText: "뒤로가기"
+                mouseArea.onClicked: {
+                    back()
+                }
+            }
+            NavigationButton{
+                width: 140
+                height: 45
+                buttonText: t
+                mouseArea.onClicked: {
+                    edit()
+                }
             }
         }
+
     }
 
 }

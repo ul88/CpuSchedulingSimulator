@@ -1,31 +1,34 @@
 #pragma once
 
 #include<QAbstractListModel>
+#include<QColor>
 
 class SchedulingOutput : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    SchedulingOutput();
+    explicit SchedulingOutput(QObject* parent = nullptr);
 
     struct element{
+        QColor pcolor;
         int waitTime;
         int responseTime;
-        int returnTime;
+        int turnAroundTime;
     };
 
     enum SchedulingOutputEnum{
         WAIT_TIME = Qt::UserRole,
         RESPONE_TIME,
-        RETURN_TIME,
-        PID
+        TURN_AROUND_TIME,
+        PID,
+        PCOLOR
     };
 
     int rowCount(const QModelIndex &p) const override;
     QVariant data(const QModelIndex& index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
-    void append(int pid, int waitTime, int responseTime, int returnTime);
-
+    void add(QColor pcolor, int pid, int waitTime, int responseTime, int turnAroundTime);
+    void clear();
     Q_INVOKABLE QVariantMap getAvg();
 
 private:
