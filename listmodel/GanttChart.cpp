@@ -40,6 +40,7 @@ void GanttChart::appendEmptyElement(int start, int end){
 
 void GanttChart::append(QColor pcolor, int pid, int start, int end){
     beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
+    if(!m_list.empty() && m_list.back().end != start) appendEmptyElement(m_list.back().end, start);
     m_list.append({pcolor, pid, start, end});
     endInsertRows();
 }

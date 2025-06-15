@@ -96,7 +96,9 @@ int ProcessList::append(int pid, int arrivalTime, int serviceTime, int priority,
 
 int ProcessList::change(int index, QColor color, int pid, int arrivalTime, int serviceTime, int priority, int timeSlice){
     int ret = check(pid, arrivalTime, serviceTime, priority, timeSlice);
-    if(ret) return ret;
+    if((ret & 32) && pid != m_list[index].pid) return ret;
+    ret &= 31;
+    if(ret & 31) return ret;
     beginResetModel();
     m_list[index] = {color, pid, arrivalTime, serviceTime, priority, timeSlice};
     endResetModel();
@@ -118,15 +120,6 @@ void ProcessList::remove(int pid){
         m_list.removeAt(index);
         endRemoveRows();
     }
-}
-
-QList<ProcessList::element> ProcessList::sort(){
-    QList<element> list = m_list;
-    std::sort(list.begin(), list.end(), [](element a, element b) -> bool {
-        if(a.arrivalTime == b.arrivalTime) return a.serviceTime < b.serviceTime;
-        return a.arrivalTime < b.arrivalTime;
-    });
-    return list;
 }
 
 QVariantMap ProcessList::getElement(int index) const{

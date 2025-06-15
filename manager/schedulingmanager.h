@@ -28,11 +28,11 @@ public:
 private:
     QMutex m_mutex;
     ProcessList* m_processList;
-    FCFS fcfs = FCFS(this);
-    SJF sjf = SJF(this);
-    NonpreemptivePriority nonpreemptivePriority = NonpreemptivePriority(this);
-    PreemptivePriority preemptivePriority = PreemptivePriority(this);
-    HRN hrn = HRN(this);
-    RR rr = RR(this);
-    SRT srt = SRT(this);
+    FCFS fcfs;
+    SJF sjf;
+    NonpreemptivePriority nonpreemptivePriority;
+    PreemptivePriority preemptivePriority;
+    HRN hrn;
+    RR rr;
+    SRT srt;
 };

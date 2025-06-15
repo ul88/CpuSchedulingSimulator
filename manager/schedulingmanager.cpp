@@ -1,11 +1,14 @@
 #include "manager/schedulingmanager.h"
-SchedulingManager::SchedulingManager() {
-    m_processList = new ProcessList();
+SchedulingManager::SchedulingManager()
+    : fcfs(FCFS(this)), sjf(SJF(this)), nonpreemptivePriority(NonpreemptivePriority(this)),
+    preemptivePriority(PreemptivePriority(this)), hrn(HRN(this)), rr(RR(this)), srt(SRT(this)),
+    m_processList(new ProcessList())
+{
+
 }
 
 void SchedulingManager::run(){
     QMutexLocker locker(&m_mutex);
-    m_processList->sort();
     fcfs.run(m_processList);
     sjf.run(m_processList);
     nonpreemptivePriority.run(m_processList);

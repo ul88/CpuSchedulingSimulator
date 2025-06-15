@@ -6,7 +6,6 @@
 #include"listmodel/GanttChart.h"
 #include"listmodel/schedulingoutput.h"
 #include"listmodel/processlist.h"
-#include<QSharedPointer>
 
 template<typename T = std::queue<ProcessList::element>>
 class Scheduling

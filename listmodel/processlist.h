@@ -27,7 +27,6 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     QString enumToQStr(ProcessListEnum e) const;
     QList<ProcessList::element> getList() const {return m_list;}
-    QList<ProcessList::element> sort();
 
     Q_INVOKABLE QVariantMap getElement(int index) const;
     Q_INVOKABLE QColor getNewColor();
