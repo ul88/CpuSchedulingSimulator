@@ -45,12 +45,6 @@ void GanttChart::append(QColor pcolor, int pid, int start, int end){
     endInsertRows();
 }
 
-void GanttChart::append(GanttChart::element e){
-    beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
-    m_list.append(e);
-    endInsertRows();
-}
-
 void GanttChart::clear(){
     beginResetModel();
     m_list.clear();

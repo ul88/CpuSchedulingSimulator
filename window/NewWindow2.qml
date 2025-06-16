@@ -20,30 +20,47 @@ Rectangle {
     }
 
     Column{
+        id: mainColumn
         x: 50
         y: 50
         width: 590
         height: 380
         spacing: 10
-        GridLayout{
-            anchors.right: parent.right
-            columns: 10
-            rowSpacing: 5
-            Repeater{
-                model: schedulingManager.getProcessList()
-                delegate: Row{
-                    required property int pid
-                    required property color pcolor
-                    Label {text: pid; font.pixelSize: 15; anchors.verticalCenter: parent.verticalCenter;}
-                    Rectangle{
-                        width: 25
-                        height: 25
-                        radius: 10
-                        color: pcolor;
+        Flickable{
+            contentHeight: gridLayout.height
+            width: 590
+            height: 55
+            clip: true
+            Item{
+                width: 570
+                height: 55
+                x:-5
+                GridLayout{
+                    id: gridLayout
+                    columns: 10
+                    rowSpacing: 5
+                    anchors.right: parent.right
+                    Repeater{
+                        id: pidRepeater
+                        model: schedulingManager.getProcessList()
+                        delegate: Row{
+                            required property int pid
+                            required property color pcolor
+                            Label {text: pid; font.pixelSize: 15; anchors.verticalCenter: parent.verticalCenter;}
+                            Rectangle{
+                                width: 25
+                                height: 25
+                                radius: 10
+                                color: pcolor;
+                            }
+                        }
                     }
                 }
             }
+
+            ScrollBar.vertical: ScrollBar {}
         }
+
         Rectangle{
             width: parent.width
             height: 140
@@ -87,7 +104,6 @@ Rectangle {
                                 }
                             }
                             Rectangle{
-
                                 width: (end-start)*gap
                                 height: 50
                                 color: pcolor;
@@ -129,7 +145,7 @@ Rectangle {
         ListView{
             id: listView
             width: parent.width
-            height: 260
+            height: 270
             spacing: 2.5
             clip: true
             boundsBehavior: Flickable.StopAtBounds

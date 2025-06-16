@@ -32,7 +32,7 @@ template<typename T>
 void Scheduling<T>::end(ProcessList::element p, bool& running, int startTime, int endTime){
     running = false; // 서비스 시간이 끝났으므로 더 볼 필요가 없음
     ganttChart->append(p.pcolor, p.pid, startTime, endTime);
-    output->add(p.pcolor, p.pid, startTime-p.arrivalTime, 0, startTime - p.arrivalTime + p.serviceTime);
+    output->add(p.pcolor, p.pid, startTime-p.arrivalTime, startTime - p.arrivalTime, startTime - p.arrivalTime + p.serviceTime);
 }
 
 template<typename T>

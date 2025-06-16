@@ -30,7 +30,6 @@ public:
 
     void appendEmptyElement(int start, int end);
     void append(QColor pcolor, int pid, int start, int end);
-    void append(GanttChart::element e);
     void clear();
 private:
     QList<GanttChart::element> m_list;
